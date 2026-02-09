@@ -1,0 +1,164 @@
+package main
+
+func main() {
+	// app := tview.NewApplication()
+	// modal := tview.NewModal().
+	// 	SetText("Do you want to quit the application?").
+	// 	AddButtons([]string{"Quit", "Cancel"}).
+	// 	SetDoneFunc(func(buttonIndex int, buttonLabel string) {
+	// 		if buttonLabel == "Quit" {
+	// 			app.Stop()
+	// 		}
+	// 	})
+	// if err := app.SetRoot(modal, false).EnableMouse(true).Run(); err != nil {
+	// 	panic(err)
+	// }
+	// app := tview.NewApplication()
+	// form := tview.NewForm().
+	// 	AddDropDown("Title", []string{"Mr.", "Ms.", "Mrs.", "Dr.", "Prof."}, 0, nil).
+	// 	AddInputField("First name", "", 20, nil, nil).
+	// 	AddInputField("Last name", "", 20, nil, nil).
+	// 	AddTextArea("Address", "", 40, 0, 0, nil).
+	// 	AddTextView("Notes", "This is just a demo.\nYou can enter whatever you wish.", 40, 2, true, false).
+	// 	AddCheckbox("Age 18+", false, nil).
+	// 	AddPasswordField("Password", "", 10, '*', nil).
+	// 	AddButton("Save", nil).
+	// 	AddButton("Quit", func() {
+	// 		app.Stop()
+	// 	})
+	// form.SetBorder(true).SetTitle("Enter some dathkjjhka").SetTitleAlign(tview.AlignLeft)
+	// if err := app.SetRoot(form, true).EnableMouse(true).EnablePaste(true).Run(); err != nil {
+	// 	panic(err)
+	// }
+
+	// app := tview.NewApplication()
+
+	// // --- 1. Create and Configure the Table ---
+	// table := tview.NewTable().
+	// 	SetBorders(true).          // Adds lines between cells
+	// 	SetSelectable(true, false) // Allows selecting entire rows
+
+	// // --- 2. Add Header Row ---
+	// headers := []string{"ID", "Task Name", "Status", "Duration", "Completed"}
+	// for c, text := range headers {
+	// 	table.SetCell(0, c,
+	// 		tview.NewTableCell(text).
+	// 			SetTextColor(tcell.ColorYellow).
+	// 			SetAlign(tview.AlignCenter).
+	// 			SetSelectable(false)) // Headers shouldn't be "selectable"
+	// }
+
+	// // --- 3. Add Sample Data ---
+	// data := [][]string{
+	// 	{"1", "Initial Setup", "Done", "10m", ""},
+	// 	{"2", "Logic Implementation", "In Progress", "45m", "✅"},
+	// 	{"3", "UI Polish", "Pending", "20m", ""},
+	// }
+
+	// for r, row := range data {
+	// 	for c, text := range row {
+	// 		table.SetCell(r+1, c, tview.NewTableCell(text))
+	// 	}
+	// }
+
+	// app := tview.NewApplication()
+
+	// // 1. Create the sub-container for content
+	// contentPages := tview.NewPages()
+
+	// // 2. Define your different screens
+	// homePage := tview.NewBox().SetBorder(true).SetTitle("Welcome Home")
+	// statsPage := tview.NewBox().SetBorder(true).SetTitle("System Statistics")
+	// settingsPage := tview.NewBox().SetBorder(true).SetTitle("App Settings")
+
+	// // Add them to the content sub-container
+	// contentPages.AddPage("home", homePage, true, true)
+	// contentPages.AddPage("stats", statsPage, true, false)
+	// contentPages.AddPage("settings", settingsPage, true, false)
+
+	// // sidebsssar := tview.NewList().
+	// // 	AddItem("Home", "Main dashboard", 'h', nil).
+	// // 	AddItem("Stats", "View analytics", 's', nil).
+	// // 	AddItem("Settings", "Change config", 'c', nil).
+	// // 	AddItem("Quit", "Exit app", 'q', func() {
+	// // 		app.Stop()
+	// // 	})
+	// // sidebarssss.SetBorder(true).SetTitle("Menu")
+	// // 3. Create the Sidebar with logic to switch content
+	// sidebar := tview.NewList().
+	// 	AddItem("Home", "Back to start", 'h', func() {
+	// 		contentPages.SwitchToPage("home")
+	// 	}).
+	// 	AddItem("Stats", "View data", 's', func() {
+	// 		contentPages.SwitchToPage("stats")
+	// 	}).
+	// 	AddItem("Settings", "Config", 'c', func() {
+	// 		contentPages.SwitchToPage("settings")
+	// 	}).
+	// 	AddItem("Quit", "Exit app", 'q', func() {
+	// 		app.Stop()
+	// 	})
+	// sidebar.SetBorder(true).SetTitle("Menu")
+	// // 4. Assemble the layout (Sidebar + our Dynamic Content Area)
+	// middle := tview.NewFlex().
+	// 	AddItem(sidebar, 25, 1, true).
+	// 	AddItem(contentPages, 0, 1, false) // Note: contentPages is used here!
+
+	// if err := app.SetRoot(middle, true).Run(); err != nil {
+	// 	panic(err)
+	// }
+
+	// app := tview.NewApplication()
+
+	// // 1. Create the content container
+	// contentPages := tview.NewPages()
+
+	// // 2. Add our pages to the container
+	// // resize=true, visible=true for Home; visible=false for Settings
+	// contentPages.AddPage("home", createHomePage(), true, true)
+	// contentPages.AddPage("settings", createSettingsPage(), true, false)
+
+	// // 3. Create Sidebar with switching logic
+	// sidebar := tview.NewList().
+	// 	AddItem("Home", "Go to dashboard", 'h', func() {
+	// 		contentPages.SwitchToPage("home")
+	// 	}).
+	// 	AddItem("Settings", "Change preferences", 's', func() {
+	// 		contentPages.SwitchToPage("settings")
+	// 	}).
+	// 	AddItem("Quit", "Press to exit", 'q', func() {
+	// 		app.Stop()
+	// 	})
+	// sidebar.SetBorder(true).SetTitle("Menu")
+
+	// // 4. Create the Layout
+	// layout := tview.NewFlex().
+	// 	AddItem(sidebar, 25, 1, true).     // Sidebar (fixed width)
+	// 	AddItem(contentPages, 0, 1, false) // Content (expands to fill)
+
+	// // 5. Start the App
+	// if err := app.SetRoot(layout, true).EnableMouse(true).Run(); err != nil {
+	// 	panic(err)
+	// }
+
+}
+
+// func createHomePage() tview.Primitive {
+// 	text := tview.NewTextView().
+// 		SetDynamicColors(true).
+// 		SetText("Welcome to your [yellow]M4 Mac Dashboard[white]!\n\nPress Tab to navigate.")
+// 	text.SetBorder(true).SetTitle("Home")
+// 	return text
+// }
+
+// func createSettingsPage() tview.Primitive {
+// 	form := tview.NewForm().
+// 		AddInputField("Username", "", 20, nil, nil).
+// 		AddPasswordField("Password", "", 10, '*', nil).
+// 		AddCheckbox("Enable Notifications", true, nil).
+// 		AddButton("Save", func() {
+// 			// Save logic here
+// 		})
+// 	form.SetBorder(true).SetTitle("Settings").SetTitleAlign(tview.AlignLeft)
+// 	return form
+// }
