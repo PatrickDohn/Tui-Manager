@@ -1,7 +1,6 @@
 package main
 
 import (
-	"go-tui/db"
 	"go-tui/ui"
 
 	"github.com/rivo/tview"
@@ -10,9 +9,9 @@ import (
 func main() {
 
 	// Initialize database
-	conn, _ := db.InitDB()
+	// conn, _ := db.InitDB()
 
-	proj, _ := db.CreateProject(conn, "Work", "Office related tasks")
+	// proj, _ := db.CreateProject(conn, "Work", "Office related tasks")
 
 	app := tview.NewApplication()
 
@@ -23,11 +22,11 @@ func main() {
 	contentPages := tview.NewPages()
 
 	state := &ui.UIState{
-		App:            app,
-		MainPages:      contentPages, // Content switcher
-		CurrentProject: proj,
-		DB:             conn,
-		UserName:       "Gopher",
+		App:       app,
+		MainPages: contentPages, // Content switcher
+		// CurrentProject: proj,
+		// DB:             conn,
+		UserName: "Gopher",
 	}
 
 	// --- YOUR EXISTING SIDEBAR LOGIC ---
@@ -44,6 +43,11 @@ func main() {
 	// sidebar.SetBorder(true).SetTitle("Menu")
 
 	sidebar := ui.CreateSidebar(state)
+
+	// divider := tview.NewTextView().
+	// 	SetTextColor(tcell.ColorIndianRed).
+	// 	SetText("│"). // Vertical line character
+	// 	SetTextAlign(tview.AlignCenter)
 
 	contentPages.AddPage("home", ui.CreateHomePage(state), true, true)
 	contentPages.AddPage("settings", ui.CreateSettingsPage(state), true, false)

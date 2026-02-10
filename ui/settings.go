@@ -13,6 +13,6 @@ func CreateSettingsPage(state *UIState) tview.Primitive {
 		state.MainPages.SwitchToPage("home")
 	})
 
-	form.SetBorder(true).SetTitle("System Settings")
+	form.SetBorder(true).SetTitle(" System Settings ⛭ ")
 	return form
 }
