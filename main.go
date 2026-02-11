@@ -65,8 +65,8 @@ func main() {
 	loginPage := ui.CreateLoginPage(state, rootPages, fullLayout)
 
 	// --- WIRE IT UP ---
-	rootPages.AddPage("login_screen", loginPage, true, true) // Visible first
-	rootPages.AddPage("main_app", fullLayout, true, false)   // Hidden first
+	rootPages.AddPage("login_screen", loginPage, true, false) // Visible first
+	rootPages.AddPage("main_app", fullLayout, true, true)     // Hidden first
 
 	if err := app.SetRoot(rootPages, true).EnableMouse(true).Run(); err != nil {
 		panic(err)

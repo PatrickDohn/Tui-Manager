@@ -14,4 +14,5 @@ type UIState struct {
 	UserName       string       // Example of "Auth" state
 	DB             *gorm.DB
 	CurrentProject *db.Project
+	RefreshSidebar func() // function pointer: "hook" for other components to call
 }

@@ -2,6 +2,7 @@ package ui
 
 import (
 	"go-tui/db"
+	"time"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -26,12 +27,17 @@ func CreateHomePage(state *UIState) tview.Primitive {
 		table.SetCell(0, 2, tview.NewTableCell("Due Date").SetAttributes(tcell.AttrBold))
 		table.SetCell(0, 3, tview.NewTableCell("Status").SetAttributes(tcell.AttrDim))
 
-		state.DB.Find(&tasks) // Populates the slice from app.db
+		// state.DB.Find(&tasks) // Populates the slice from app.db
+		// find where due date == today
+		today := time.Now().Format("2006-01-02")
+		state.DB.
+			Where("date(due_date) = ?", today).
+			Find(&tasks)
 
 		for i, t := range tasks {
 			dateDisplay := ""
 			if !t.DueDate.IsZero() {
-				dateDisplay = t.DueDate.Format("01/02/2026")
+				dateDisplay = t.DueDate.Format("01/02/2006")
 			}
 
 			table.SetCell(i+1, 0, tview.NewTableCell(t.Title))
@@ -54,10 +60,12 @@ func CreateHomePage(state *UIState) tview.Primitive {
 			if title == "" {
 				return
 			}
+			now := time.Now()
 
 			newTask := db.Task{
 				Title:    title,
 				Status:   "Pending",
+				DueDate:  now,
 				Priority: "",
 				Desc:     "",
 			}

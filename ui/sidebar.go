@@ -20,45 +20,49 @@ func CreateSidebar(state *UIState) tview.Primitive {
 
 	mainTasks.SetBorder(false) // We'll put the border on the outer flex instead
 
-	// 2. PROJECTS SECTION
-	var projects []db.Project
-
 	projList := tview.NewList().SetCurrentItem(0)
+	// 2. PROJECTS SECTION
+	state.RefreshSidebar = func() {
 
-	projList.Clear()
+		var projects []db.Project
 
-	state.DB.Find(&projects)
+		projList.Clear()
 
-	if len(projects) == 0 {
-		projList.AddItem(
-			"[gray]No projects[-]",
-			"",
-			0,
-			nil,
-		)
-		projList.SetCurrentItem(0)
-	} else {
-		for i := range projects {
-			proj := &projects[i] // safe pointer to slice element
+		state.DB.Find(&projects)
 
+		if len(projects) == 0 {
 			projList.AddItem(
-				proj.Name,
-				proj.Description,
+				"[gray]No projects[-]",
+				"",
 				0,
-				func() {
-					state.CurrentProject = proj
-
-					projectPage := CreateProjectDetailPage(state)
-
-					state.MainPages.AddAndSwitchToPage(
-						"project",
-						projectPage,
-						true,
-					)
-				},
+				nil,
 			)
+			projList.SetCurrentItem(0)
+		} else {
+			for i := range projects {
+				proj := &projects[i] // safe pointer to slice element
+
+				projList.AddItem(
+					proj.Name,
+					proj.Description,
+					0,
+					func() {
+						state.CurrentProject = proj
+
+						projectPage := CreateProjectDetailPage(state)
+
+						state.MainPages.AddAndSwitchToPage(
+							"project",
+							projectPage,
+							true,
+						)
+					},
+				)
+			}
 		}
 	}
+
+	state.RefreshSidebar()
 
 	settings := tview.NewList().
 		AddItem("App Settings", "", 's', func() {
@@ -73,6 +77,42 @@ func CreateSidebar(state *UIState) tview.Primitive {
 
 	headerProj := tview.NewTextView().SetText("--- PROJECTS ---").SetTextAlign(tview.AlignCenter).SetTextColor(tcell.ColorYellow)
 
+	label := tview.NewTextView().
+		SetDynamicColors(true).
+		SetText("[green]+[white] New Project")
+
+	quickinput := tview.NewInputField().
+		SetFieldWidth(0).
+		SetPlaceholder("Project Name")
+
+	quickinput.SetDoneFunc(func(key tcell.Key) {
+		if key == tcell.KeyEnter {
+			name := quickinput.GetText()
+			if name == "" {
+				return
+			}
+			newProj := db.Project{
+				Name:        name,
+				Description: "",
+				Notes:       "",
+			}
+
+			state.DB.Create(&newProj)
+
+			if state.RefreshSidebar != nil {
+				state.RefreshSidebar()
+			}
+
+			quickinput.SetText("")
+			state.MainPages.SwitchToPage("home")
+
+		}
+	})
+
+	inputContainer := tview.NewFlex().
+		SetDirection(tview.FlexRow).
+		AddItem(label, 1, 0, false). // height 1 row
+		AddItem(quickinput, 1, 0, true)
 	// 4. ASSEMBLE SIDEBAR FLEX
 	sidebarFlex := tview.NewFlex().SetDirection(tview.FlexRow).
 		// 1. TOP SECTION: Tasks
@@ -82,7 +122,8 @@ func CreateSidebar(state *UIState) tview.Primitive {
 		// 2. MIDDLE SECTION: Projects
 		AddItem(tview.NewBox(), 1, 1, false). // Small gap between Tasks and Projects
 		AddItem(headerProj, 1, 1, false).
-		AddItem(projList, 8, 1, false).
+		AddItem(projList, 12, 1, false).
+		AddItem(inputContainer, 2, 1, false).
 
 		// 3. THE "SPRING": This fills all empty space
 		// Fixed height: 0, Proportion: 1

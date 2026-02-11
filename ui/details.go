@@ -25,6 +25,13 @@ func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview
 		task.Priority = option
 	})
 
+	// Dropdown for status'
+	status := []string{"Pending", "In Progress", "Done"}
+
+	form.AddDropDown("Status", status, 0, func(opt string, optIndex int) {
+		task.Status = opt
+	})
+
 	form.AddButton("Save", func() {
 		state.DB.Save(&task)
 
@@ -32,7 +39,7 @@ func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview
 	})
 
 	// form.AddButton("Delete")
-
-	form.SetBorder(true).SetTitle(" Task ID: " + fmt.Sprint(task.ID))
+	message := fmt.Sprintf(" %s Details", task.Title)
+	form.SetBorder(true).SetTitle(message)
 	return form
 }

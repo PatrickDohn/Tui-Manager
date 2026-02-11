@@ -16,8 +16,8 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 		// This ensures the selection stays within existing cells
 		SetEvaluateAllRows(true)
 
-	detailContainer := tview.NewFlex().SetDirection(tview.FlexRow)
 	mainContentContainer := tview.NewFlex().SetDirection(tview.FlexRow)
+	// projDetailContainer := tview.NewFlex().SetDirection(tview.FlexRow)
 
 	var tasks []db.Task
 	// 1. Fetch the tasks
@@ -46,9 +46,8 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 		}
 
 	}
-
 	quickinput := tview.NewInputField().
-		SetLabel(" [green]+[white] New Task: ").
+		SetLabel(" [green]+[white] New Project Task: ").
 		SetFieldWidth(0).
 		SetPlaceholder("Type task title and press enter...")
 
@@ -73,15 +72,45 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 		}
 	})
 
-	renderForm := func(task db.Task) {
-		detailContainer.Clear()
-		form := CreateTaskDetailForm(state, task, func() {
-			// Delete logic: remove from slice and refresh table
-			refreshTable()
+	var message string
+	var defaultProjView tview.Primitive
+
+	if state.CurrentProject == nil {
+		message = " No Project Selected "
+	} else {
+		message = fmt.Sprintf(" %s Tasks", state.CurrentProject.Name)
+		defaultProjView = ProjectDetailForm(state, *state.CurrentProject, func() {
+			state.RefreshSidebar()
 			state.App.SetFocus(table)
 		})
-		detailContainer.AddItem(form, 0, 1, true)
 	}
+
+	detailContainer := tview.NewFlex().SetDirection(tview.FlexRow).AddItem(defaultProjView, 0, 1, true)
+
+	renderForm := func(task db.Task) {
+		detailContainer.Clear()
+
+		form := CreateTaskDetailForm(state, task, func() {
+			refreshTable()
+
+			// Restore default view
+			detailContainer.Clear()
+			detailContainer.AddItem(defaultProjView, 0, 1, true)
+
+			state.App.SetFocus(table)
+		})
+
+		detailContainer.AddItem(form, 0, 1, true)
+		state.App.SetFocus(form)
+	}
+
+	// renderProjForm := func(proj db.Project) {
+	// 	projDetailContainer.Clear()
+	// 	form := ProjectDetailForm(state, *state.CurrentProject, func() {
+	// 		state.App.SetFocus(table)
+	// 	})
+	// 	projDetailContainer.AddItem(form, 0, 1, true)
+	// }
 
 	// 4. Update on Selection
 	table.SetSelectionChangedFunc(func(r, c int) {
@@ -91,27 +120,25 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 		renderForm(tasks[r-1]) // Pass the actual task struct
 	})
 
-	var message string
-
-	if state.CurrentProject == nil {
-		message = " No Project Selected "
-	} else {
-		message = fmt.Sprintf(" %s +  ID: %d ", state.CurrentProject.Name, state.CurrentProject.ID)
-	}
-
 	mainContentContainer.
 		AddItem(table, 0, 1, true).
 		AddItem(quickinput, 3, 1, false).
 		SetBorder(true).
-		SetTitle(message)
+		SetTitle(message).
+		SetFocusFunc(func() {
+			detailContainer.Clear()
+			detailContainer.AddItem(defaultProjView, 0, 1, true)
+		})
 
 	if state.CurrentProject != nil {
 		refreshTable() // populate table immediately
 	} else {
 		table.Clear() // safe fallback if no project selected
+
 	}
 
 	return tview.NewFlex().
 		AddItem(mainContentContainer, 0, 1, true).
 		AddItem(detailContainer, 0, 1, false)
+
 }
