@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-tui/db"
 	"go-tui/ui"
 
 	"github.com/rivo/tview"
@@ -9,11 +10,12 @@ import (
 func main() {
 
 	// Initialize database
-	// conn, _ := db.InitDB()
-
-	// proj, _ := db.CreateProject(conn, "Work", "Office related tasks")
+	conn, _ := db.InitDB()
 
 	app := tview.NewApplication()
+
+	// db.CreateProject(conn, "Work", "Office related tasks")
+	// db.CreateProject(conn, "Res Creator", "Office related tasks")
 
 	// 1. rootPages will handle Login vs. The Whole App
 	rootPages := tview.NewPages()
@@ -22,11 +24,11 @@ func main() {
 	contentPages := tview.NewPages()
 
 	state := &ui.UIState{
-		App:       app,
-		MainPages: contentPages, // Content switcher
-		// CurrentProject: proj,
-		// DB:             conn,
-		UserName: "Gopher",
+		App:            app,
+		MainPages:      contentPages, // Content switcher
+		CurrentProject: nil,
+		DB:             conn,
+		UserName:       "Gopher",
 	}
 
 	// --- YOUR EXISTING SIDEBAR LOGIC ---
@@ -51,6 +53,7 @@ func main() {
 
 	contentPages.AddPage("home", ui.CreateHomePage(state), true, true)
 	contentPages.AddPage("settings", ui.CreateSettingsPage(state), true, false)
+	contentPages.AddPage("project", ui.CreateProjectDetailPage(state), true, false)
 
 	// --- THE MAIN APP LAYOUT ---
 	fullLayout := tview.NewFlex().

@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"go-tui/db"
+
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -19,12 +21,44 @@ func CreateSidebar(state *UIState) tview.Primitive {
 	mainTasks.SetBorder(false) // We'll put the border on the outer flex instead
 
 	// 2. PROJECTS SECTION
-	projects := tview.NewList().
-		AddItem("Project Alpha", "Go TUI development", '1', nil).
-		AddItem("Project Beta", "SQLite Integration", '2', nil).
-		AddItem("New Project", "+ Add dynamic project", 'n', nil)
+	var projects []db.Project
 
-	projects.SetBorder(false)
+	projList := tview.NewList().SetCurrentItem(0)
+
+	projList.Clear()
+
+	state.DB.Find(&projects)
+
+	if len(projects) == 0 {
+		projList.AddItem(
+			"[gray]No projects[-]",
+			"",
+			0,
+			nil,
+		)
+		projList.SetCurrentItem(0)
+	} else {
+		for i := range projects {
+			proj := &projects[i] // safe pointer to slice element
+
+			projList.AddItem(
+				proj.Name,
+				proj.Description,
+				0,
+				func() {
+					state.CurrentProject = proj
+
+					projectPage := CreateProjectDetailPage(state)
+
+					state.MainPages.AddAndSwitchToPage(
+						"project",
+						projectPage,
+						true,
+					)
+				},
+			)
+		}
+	}
 
 	settings := tview.NewList().
 		AddItem("App Settings", "", 's', func() {
@@ -48,7 +82,7 @@ func CreateSidebar(state *UIState) tview.Primitive {
 		// 2. MIDDLE SECTION: Projects
 		AddItem(tview.NewBox(), 1, 1, false). // Small gap between Tasks and Projects
 		AddItem(headerProj, 1, 1, false).
-		AddItem(projects, 8, 1, false).
+		AddItem(projList, 8, 1, false).
 
 		// 3. THE "SPRING": This fills all empty space
 		// Fixed height: 0, Proportion: 1
