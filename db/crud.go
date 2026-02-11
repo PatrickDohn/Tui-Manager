@@ -4,8 +4,8 @@ import "gorm.io/gorm"
 
 // --- CREATE ---
 
-func CreateProject(db *gorm.DB, name string, desc string) (*Project, error) {
-	project := Project{Name: name, Description: desc}
+func CreateProject(db *gorm.DB, name string, desc string, notes string) (*Project, error) {
+	project := Project{Name: name, Description: desc, Notes: notes}
 	result := db.Create(&project)
 	return &project, result.Error
 }

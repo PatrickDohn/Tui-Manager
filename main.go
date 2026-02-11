@@ -14,8 +14,8 @@ func main() {
 
 	app := tview.NewApplication()
 
-	// db.CreateProject(conn, "Work", "Office related tasks")
-	// db.CreateProject(conn, "Res Creator", "Office related tasks")
+	// db.CreateProject(conn, "Work", "Office related tasks", "REturn office supplies")
+	// db.CreateProject(conn, "Res Creator", "resume creation app", "These are my notes.")
 
 	// 1. rootPages will handle Login vs. The Whole App
 	rootPages := tview.NewPages()

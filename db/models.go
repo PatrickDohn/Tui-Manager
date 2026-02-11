@@ -10,6 +10,7 @@ type Project struct {
 	gorm.Model
 	Name        string `gorm:"unique;not null"`
 	Description string
+	Notes       string
 	Tasks       []Task // One-to-Many relationship
 }
 
