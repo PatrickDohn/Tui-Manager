@@ -12,11 +12,11 @@ func CreateSidebar(state *UIState) tview.Primitive {
 	mainTasks := tview.NewList().
 		AddItem("Daily", "Today's focus", 'd', func() {
 			state.MainPages.SwitchToPage("home")
-		}).
-		AddItem("Upcoming", "Next few days", 'u', nil).
+		}).SetSecondaryTextColor(DraculaGreen).
+		AddItem("Upcoming", "Next few days", 'u', nil).SetSecondaryTextColor(DraculaGreen).
 		AddItem("Backlog", "Future tasks", 'b', func() {
 			state.MainPages.SwitchToPage("settings")
-		})
+		}).SetSecondaryTextColor(DraculaGreen)
 
 	mainTasks.SetBorder(false) // We'll put the border on the outer flex instead
 
@@ -57,7 +57,7 @@ func CreateSidebar(state *UIState) tview.Primitive {
 							true,
 						)
 					},
-				)
+				).SetSecondaryTextColor(DraculaGreen)
 			}
 		}
 	}
@@ -67,23 +67,24 @@ func CreateSidebar(state *UIState) tview.Primitive {
 	settings := tview.NewList().
 		AddItem("App Settings", "", 's', func() {
 			state.MainPages.SwitchToPage("settings")
-		}).
+		}).SetSecondaryTextColor(DraculaGreen).
 		AddItem("Quit", "Future tasks", 'q', func() {
 			state.App.Stop()
-		})
+		}).SetSecondaryTextColor(DraculaGreen)
 
 	// 3. SECTION HEADERS
-	headerMain := tview.NewTextView().SetText("--- TASKS ---").SetTextAlign(tview.AlignCenter).SetTextColor(tcell.ColorYellow)
+	headerMain := tview.NewTextView().SetText("--- TASKS ---").SetTextAlign(tview.AlignCenter).SetTextColor(DraculaPink)
 
-	headerProj := tview.NewTextView().SetText("--- PROJECTS ---").SetTextAlign(tview.AlignCenter).SetTextColor(tcell.ColorYellow)
+	headerProj := tview.NewTextView().SetText("--- PROJECTS ---").SetTextAlign(tview.AlignCenter).SetTextColor(DraculaPink)
 
 	label := tview.NewTextView().
-		SetDynamicColors(true).
-		SetText("[green]+[white] New Project")
+		SetText("+ New Project").
+		SetTextColor(DraculaGreen)
 
 	quickinput := tview.NewInputField().
 		SetFieldWidth(0).
-		SetPlaceholder("Project Name")
+		SetPlaceholder("Project Name").
+		SetPlaceholderTextColor(DraculaComment)
 
 	quickinput.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {

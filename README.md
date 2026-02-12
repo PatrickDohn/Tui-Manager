@@ -1,53 +1,220 @@
-# System 
-my-app/
-├── main.go            # Entry point: initializes DB and starts the UI
-├── go.mod             # Dependencies
-├── auth/              # Logic for login, hashing passwords, and sessions
-│   └── auth.go
-├── database/          # Database connection and "CRUD" operations
-│   └── db.go
-└── ui/                # All tview-related code
-    ├── app.go         # Main UI layout and Page switching logic
-    ├── home.go        # The Home page primitive
-    ├── settings.go    # The Settings page primitive
-    └── login.go       # The Login modal or page
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 
+<a id="readme-top"></a>
 
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
-# . The Architecture Flow
-Think of your app in three layers:
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
 
-The Store (Database): Uses a library like GORM or sqlx to talk to SQLite or PostgreSQL.
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![project_license][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-The Controller (Auth/Logic): Takes user input (username/pass) and checks it against the Store.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/PatrickDohn/Tui-Manager">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNiZDkxZjkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zcXVhcmUtdGVybWluYWwtaWNvbiBsdWNpZGUtc3F1YXJlLXRlcm1pbmFsIj48cGF0aCBkPSJtNyAxMSAyLTItMi0yIi8+PHBhdGggZD0iTTExIDEzaDQiLz48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiByeT0iMiIvPjwvc3ZnPg==" alt="Logo" width="80" height="80">
+  </a>
 
-The View (Tview): Displays the data. Crucial rule: The UI should never talk directly to the Database; it should always ask the "Logic" layer for data.
+<h3 align="center">Tui Manager</h3>
 
+  <p align="center">
+    Terminal task and project manager
+    <br />
+    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    &middot;
+    <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    &middot;
+    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
 
-# Handling Auth in a TUI
-Authentication in a terminal app is slightly different than a web app. You don't have "cookies," so you typically store a Session Object in memory within your main.go.
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-Example Logic Flow:
-Startup: main.go opens the database.
+<!-- ABOUT THE PROJECT -->
 
-Login Screen: The ui package shows a tview.Form.
+## About The Project
 
-Verification: When the user clicks "Login," the UI calls auth.Verify(user, pass).
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-State Change: If successful, the ui calls contentPages.SwitchToPage("home").
+Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`, `project_license`
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# How to share the "App State"
-This is the biggest challenge for beginners. Your home.go needs to talk to the app to switch pages. You do this by creating a State Struct.
+### Built With
 
+- [![Go][Go]][Go]
+- [![Sqlite][Sqlite]][Sqlite]
 
-# Database Recommendation (SQLite)
-For an desktop app, SQLite is the perfect choice. It’s a single file that lives in your project folder—no need to install a heavy server like MySQL.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-    Database	modernc.org/sqlite (Pure Go, no CGO required)
-    ORM	gorm.io/gorm (Makes database queries look like Go code)
-    Security	golang.org/x/crypto/bcrypt (For hashing passwords)
+<!-- GETTING STARTED -->
 
+## Getting Started
 
-//                      Name       Primitive        Resize  Visible
-state.MainPages.AddPage("settings", settingsPage,   true,   false)
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+
+- brew
+  ```sh
+    brew install go
+  ```
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/PatrickDohn/Tui-Manager
+   ```
+2. Install project and packages
+   ```sh
+   go run .
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+
+## Usage
+
+TODO...
+
+_For more examples, please refer to the [Documentation](https://example.com)_
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ROADMAP -->
+
+## Roadmap
+
+- [ ] Feature 1
+- [ ] Feature 2
+- [ ] Feature 3
+  - [ ] Nested Feature
+
+See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Top contributors:
+
+<a href="https://github.com/github_username/repo_name/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
+</a>
+
+<!-- LICENSE -->
+
+## License
+
+Distributed under the project_license. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+
+Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGMENTS -->
+
+## Acknowledgments
+
+- []()
+- []()
+- []()
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
+[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
+[forks-url]: https://github.com/github_username/repo_name/network/members
+[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
+[stars-url]: https://github.com/github_username/repo_name/stargazers
+[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
+[issues-url]: https://github.com/github_username/repo_name/issues
+[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
+[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
+[product-screenshot]: images/Screenshot.png
+
+<!-- Shields.io badges. You can a comprehensive list with many more badges at: https://github.com/inttter/md-badges -->
+<!-- [![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white)](#) -->
+<!-- [![Go](https://img.shields.io/badge/Go-%2300ADD8.svg?&logo=go&logoColor=white)](#) -->
+
+[Go]: https://img.shields.io/badge/Go-%2300ADD8.svg?&logo=go&logoColor=white
+[Sqlite]: https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white

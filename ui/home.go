@@ -52,7 +52,8 @@ func CreateHomePage(state *UIState) tview.Primitive {
 	quickinput := tview.NewInputField().
 		SetLabel(" [green]+[white] New Task: ").
 		SetFieldWidth(0).
-		SetPlaceholder("Type task title and press enter...")
+		SetPlaceholder("Type task title and press enter...").
+		SetPlaceholderTextColor(DraculaComment)
 
 	quickinput.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
