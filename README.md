@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/PatrickDohn/Tui-Manager">
-    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNiZDkxZjkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zcXVhcmUtdGVybWluYWwtaWNvbiBsdWNpZGUtc3F1YXJlLXRlcm1pbmFsIj48cGF0aCBkPSJtNyAxMSAyLTItMi0yIi8+PHBhdGggZD0iTTExIDEzaDQiLz48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHg9IjMiIHk9IjMiIHJ4PSIyIiByeT0iMiIvPjwvc3ZnPg==" alt="Logo" width="80" height="80">
+    <img src="images/square-terminal.png" alt="Logo">
   </a>
 
 <h3 align="center">Tui Manager</h3>
