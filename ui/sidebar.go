@@ -15,12 +15,13 @@ func CreateSidebar(state *UIState) tview.Primitive {
 		}).SetSecondaryTextColor(DraculaGreen).
 		AddItem("Upcoming", "Next few days", 'u', nil).SetSecondaryTextColor(DraculaGreen).
 		AddItem("Backlog", "Future tasks", 'b', func() {
-			state.MainPages.SwitchToPage("settings")
+			// state.MainPages.SwitchToPage("settings")
 		}).SetSecondaryTextColor(DraculaGreen)
 
 	mainTasks.SetBorder(false) // We'll put the border on the outer flex instead
 
 	projList := tview.NewList().SetCurrentItem(0)
+	shortcuts := "1234567890abcdefghijklmnopqrstuvwxyz"
 	// 2. PROJECTS SECTION
 	state.RefreshSidebar = func() {
 
@@ -41,11 +42,15 @@ func CreateSidebar(state *UIState) tview.Primitive {
 		} else {
 			for i := range projects {
 				proj := &projects[i] // safe pointer to slice element
+				var shortcut rune
+				if i < len(shortcuts) {
+					shortcut = rune(shortcuts[i])
+				}
 
 				projList.AddItem(
 					proj.Name,
 					proj.Description,
-					0,
+					shortcut,
 					func() {
 						state.CurrentProject = proj
 
@@ -68,7 +73,7 @@ func CreateSidebar(state *UIState) tview.Primitive {
 		AddItem("App Settings", "", 's', func() {
 			state.MainPages.SwitchToPage("settings")
 		}).SetSecondaryTextColor(DraculaGreen).
-		AddItem("Quit", "Future tasks", 'q', func() {
+		AddItem(" ⏏︎ Quit", "", 'q', func() {
 			state.App.Stop()
 		}).SetSecondaryTextColor(DraculaGreen)
 

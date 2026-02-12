@@ -1,0 +1,7 @@
+# Local enviroment variables
+.env
+
+
+# SQLite database
+*.db
+app.db

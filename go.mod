@@ -1,6 +1,6 @@
 module go-tui
 
-go 1.22.4
+go 1.24.0
 
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -8,6 +8,8 @@ require (
 	github.com/gdamore/tcell/v2 v2.8.1 // indirect
 	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/glebarez/sqlite v1.11.0 // indirect
+	github.com/google/go-github/v60 v60.0.0 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -17,6 +19,7 @@ require (
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rivo/tview v0.42.1-0.20250929082832-e113793670e2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
+	golang.org/x/oauth2 v0.35.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/term v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
