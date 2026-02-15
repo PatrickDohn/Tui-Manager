@@ -26,7 +26,6 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 
 	mainContentContainer := tview.NewFlex().SetDirection(tview.FlexRow)
 	// projDetailContainer := tview.NewFlex().SetDirection(tview.FlexRow)
-	issueContainer := tview.NewFlex().SetDirection(tview.FlexRow)
 
 	var tasks []db.Task
 	// 1. Fetch the tasks
@@ -151,15 +150,11 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 		renderForm(tasks[r-1]) // Pass the actual task struct
 	})
 
-	getGit := tview.NewButton("Get git").
-		SetSelectedFunc(func() {
-			refreshGitList()
-		})
+	issueContainer := tview.NewFlex().SetDirection(tview.FlexRow)
 
 	mainContentContainer.
 		AddItem(table, 0, 1, true).
 		AddItem(quickinput, 3, 1, false).
-		AddItem(getGit, 1, 1, false).
 		SetBorder(true).
 		SetTitle(message).
 		SetFocusFunc(func() {
@@ -179,8 +174,16 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 
 	contentContainer := tview.NewFlex().
 		SetDirection(tview.FlexRow).
-		AddItem(mainContentContainer, 0, 1, true).
-		AddItem(issueContainer, 0, 1, true)
+		AddItem(mainContentContainer, 0, 1, true)
+
+	getGit := tview.NewButton("Get git").
+		SetSelectedFunc(func() {
+			refreshGitList()
+			contentContainer.AddItem(issueContainer, 0, 1, true)
+
+		})
+
+	mainContentContainer.AddItem(getGit, 1, 1, false)
 
 	return tview.NewFlex().
 		AddItem(contentContainer, 0, 1, false).
