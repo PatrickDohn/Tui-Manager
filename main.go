@@ -1,10 +1,14 @@
 package main
 
 import (
+	"go-tui/api"
 	"go-tui/db"
 	"go-tui/ui"
+	"log"
+	"os"
 
 	"github.com/gdamore/tcell/v2"
+	"github.com/joho/godotenv"
 	"github.com/rivo/tview"
 )
 
@@ -24,8 +28,18 @@ var (
 
 func main() {
 
-	// Initialize database
+	//Load env
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("No .env file found, ")
+	}
+
+	// 1. Initialize database
 	conn, _ := db.InitDB()
+
+	// 2. Setup GitHub (Use os.Getenv so you don't hardcode your token!)
+	token := os.Getenv("GITHUB_FG_TOKEN")
+	ghClient := api.CreateGithubClient(token)
 
 	app := tview.NewApplication()
 
@@ -49,6 +63,7 @@ func main() {
 		MainPages:      contentPages, // Content switcher
 		CurrentProject: nil,
 		DB:             conn,
+		GHClient:       ghClient,
 		UserName:       "Gopher",
 	}
 

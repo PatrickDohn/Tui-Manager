@@ -14,7 +14,7 @@ func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview
 	form.AddInputField("Title", task.Title, 30, nil, func(text string) {
 		task.Title = text
 	})
-	form.AddTextArea("Description", task.Desc, 40, 5, 0, func(text string) {
+	form.AddTextArea("Description", task.Desc, 60, 30, 0, func(text string) {
 		task.Desc = text
 	})
 

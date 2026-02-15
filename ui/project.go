@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"context"
 	"fmt"
 	"go-tui/db"
 
@@ -12,12 +13,20 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 
 	table := tview.NewTable().
 		SetBorders(true).
+		SetFixed(1, 0).
 		SetSelectable(true, false).
 		// This ensures the selection stays within existing cells
 		SetEvaluateAllRows(true)
 
+	list := tview.NewList().
+		SetSelectedBackgroundColor(0x4444ff).
+		SetSelectedTextColor(0xffffff)
+
+	list.SetBorder(true).SetTitle(" Github Issues ")
+
 	mainContentContainer := tview.NewFlex().SetDirection(tview.FlexRow)
 	// projDetailContainer := tview.NewFlex().SetDirection(tview.FlexRow)
+	issueContainer := tview.NewFlex().SetDirection(tview.FlexRow)
 
 	var tasks []db.Task
 	// 1. Fetch the tasks
@@ -40,12 +49,33 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 			}
 
 			table.SetCell(i+1, 0, tview.NewTableCell(t.Title))
-			table.SetCell(i+1, 1, tview.NewTableCell(t.Priority))
+			table.SetCell(i+1, 1, tview.NewTableCell(t.Priority).SetTextColor(DraculaGreen))
 			table.SetCell(i+1, 2, tview.NewTableCell(dateDisplay))
 			table.SetCell(i+1, 3, tview.NewTableCell(t.Status))
 		}
 
 	}
+
+	refreshGitList := func() {
+		ctx := context.Background()
+		issues, _, err := state.GHClient.Issues.ListByRepo(ctx, "PatrickDohn", "Tui-Manager", nil)
+		list.Clear()
+
+		if err != nil {
+
+			list.AddItem("🌮 ERROR: ", err.Error(), 0, nil)
+		}
+
+		for _, issue := range issues {
+			title := issue.GetTitle()
+			status := issue.GetState()
+
+			list.AddItem(title, status, 0, nil)
+
+		}
+
+	}
+
 	quickinput := tview.NewInputField().
 		SetLabel(" [green]+[white] New Project Task: ").
 		SetFieldWidth(0).
@@ -121,15 +151,24 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 		renderForm(tasks[r-1]) // Pass the actual task struct
 	})
 
+	getGit := tview.NewButton("Get git").
+		SetSelectedFunc(func() {
+			refreshGitList()
+		})
+
 	mainContentContainer.
 		AddItem(table, 0, 1, true).
 		AddItem(quickinput, 3, 1, false).
+		AddItem(getGit, 1, 1, false).
 		SetBorder(true).
 		SetTitle(message).
 		SetFocusFunc(func() {
 			detailContainer.Clear()
 			detailContainer.AddItem(defaultProjView, 0, 1, true)
 		})
+
+	issueContainer.
+		AddItem(list, 0, 1, false)
 
 	if state.CurrentProject != nil {
 		refreshTable() // populate table immediately
@@ -138,8 +177,13 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 
 	}
 
-	return tview.NewFlex().
+	contentContainer := tview.NewFlex().
+		SetDirection(tview.FlexRow).
 		AddItem(mainContentContainer, 0, 1, true).
+		AddItem(issueContainer, 0, 1, true)
+
+	return tview.NewFlex().
+		AddItem(contentContainer, 0, 1, false).
 		AddItem(detailContainer, 0, 1, false)
 
 }

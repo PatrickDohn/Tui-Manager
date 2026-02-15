@@ -156,3 +156,18 @@ func CreateSidebar(state *UIState) tview.Primitive {
 // 		app.Stop()
 // 	})
 // sidebar.SetBorder(true).SetTitle("Menu")
+
+// app := tview.NewApplication()
+
+// list := tview.NewList().
+// 	AddItem("🌮 Eat tacos", "Because why not?", 0, nil).
+// 	AddItem("🚀 Launch side project", "Make it weird", 0, nil).
+// 	AddItem("📚 Read something random", "Expand brain wrinkles", 0, nil).
+// 	SetSelectedBackgroundColor(0x4444ff).
+// 	SetSelectedTextColor(0xffffff)
+
+// list.SetBorder(true).SetTitle(" Random List ")
+
+// if err := app.SetRoot(list, true).Run(); err != nil {
+// 	panic(err)
+// }

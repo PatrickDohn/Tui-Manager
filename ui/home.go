@@ -27,17 +27,22 @@ func CreateHomePage(state *UIState) tview.Primitive {
 		table.SetCell(0, 2, tview.NewTableCell("Due Date").SetAttributes(tcell.AttrBold))
 		table.SetCell(0, 3, tview.NewTableCell("Status").SetAttributes(tcell.AttrDim))
 
-		// state.DB.Find(&tasks) // Populates the slice from app.db
-		// find where due date == today
-		today := time.Now().Format("2006-01-02")
+		// SQLite’s date() function converts timestamps to UTC internally unless told otherwise.
+		// value in db: 2026-02-12 21:13:53.618046-05:00
+		// value if queried like WHERE(date(due_date)) => returns 2026-02-13 02:13:53 UTC
+		//
+		now := time.Now()
+		today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+		tomorrow := today.Add(24 * time.Hour)
+
 		state.DB.
-			Where("date(due_date) = ?", today).
+			Where("due_date >= ? AND due_date < ?", today, tomorrow).
 			Find(&tasks)
 
 		for i, t := range tasks {
 			dateDisplay := ""
 			if !t.DueDate.IsZero() {
-				dateDisplay = t.DueDate.Format("01/02/2006")
+				dateDisplay = t.DueDate.Format("01-02-2006")
 			}
 
 			table.SetCell(i+1, 0, tview.NewTableCell(t.Title))
