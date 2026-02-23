@@ -10,6 +10,8 @@ import (
 
 func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview.Primitive {
 
+	// var dueDateText string
+	dueDateText := task.DueDate.Format("01-02-2006")
 	form := tview.NewForm()
 
 	// Use the struct fields directly
@@ -17,13 +19,8 @@ func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview
 		task.Title = text
 	})
 
-	form.AddInputField("Due Date", task.DueDate.Format("01-02-2006"), 30, nil, func(text string) {
-		t, err := time.Parse("01-02-2006", text)
-		if err != nil {
-			fmt.Println("Error parsing date:", err)
-			return
-		}
-		task.DueDate = t
+	form.AddInputField("Due Date", dueDateText, 30, nil, func(text string) {
+		dueDateText = text
 	})
 
 	form.AddTextArea("Description", task.Desc, 60, 30, 0, func(text string) {
@@ -45,8 +42,15 @@ func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview
 	})
 
 	form.AddButton("Save", func() {
-		state.DB.Save(&task)
 
+		t, err := time.Parse("01-02-2006", dueDateText)
+		if err != nil {
+			// show an error to the user however you like
+
+			onComplete()
+		}
+		task.DueDate = t
+		state.DB.Save(&task)
 		onComplete()
 	})
 

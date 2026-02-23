@@ -35,6 +35,10 @@ func CreateHomePage(state *UIState) tview.Primitive {
 		today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 		tomorrow := today.Add(24 * time.Hour)
 
+		// fmt.Println("todays date:", today)
+		// fmt.Println("Tomorows date: ", tomorrow)
+		// fmt.Println("DATES: ", today > tomorrow)
+
 		state.DB.
 			Where("due_date >= ? AND due_date < ?", today, tomorrow).
 			Find(&tasks)
