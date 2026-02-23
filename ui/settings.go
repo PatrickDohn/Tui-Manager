@@ -32,6 +32,9 @@ func CreateSettingsPage(state *UIState) tview.Primitive {
 
 			form.AddInputField("Project Name", proj.Name, 40, nil, func(text string) {})
 			form.AddInputField("Project Desc.", proj.Description, 60, nil, func(text string) {})
+			form.AddInputField("Github Project Name", proj.GithubProjName, 60, nil, func(text string) {})
+			form.AddInputField("Github User Name", proj.GHUserName, 60, nil, func(text string) {})
+			form.AddInputField("Token", proj.GHUserName, 60, nil, func(text string) {})
 			spacer := tview.NewTextView().SetText("--- --- --- --- ---").SetTextAlign(tview.AlignCenter).SetTextColor(tcell.ColorYellow)
 			form.AddFormItem(spacer)
 		}

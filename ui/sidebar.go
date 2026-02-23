@@ -15,7 +15,7 @@ func CreateSidebar(state *UIState) tview.Primitive {
 		}).SetSecondaryTextColor(DraculaGreen).
 		AddItem("Upcoming", "Next few days", 'u', nil).SetSecondaryTextColor(DraculaGreen).
 		AddItem("Backlog", "Future tasks", 'b', func() {
-			// state.MainPages.SwitchToPage("settings")
+			state.MainPages.SwitchToPage("backlog")
 		}).SetSecondaryTextColor(DraculaGreen)
 
 	mainTasks.SetBorder(false) // We'll put the border on the outer flex instead

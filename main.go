@@ -90,6 +90,7 @@ func main() {
 	contentPages.AddPage("home", ui.CreateHomePage(state), true, true)
 	contentPages.AddPage("settings", ui.CreateSettingsPage(state), true, false)
 	contentPages.AddPage("project", ui.CreateProjectDetailPage(state), true, false)
+	contentPages.AddPage("backlog", ui.CreateBacklogPage(state), true, false)
 
 	// --- THE MAIN APP LAYOUT ---
 	fullLayout := tview.NewFlex().
