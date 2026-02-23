@@ -49,7 +49,7 @@ func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview
 
 			onComplete()
 		}
-		task.DueDate = t
+		task.DueDate = t.UTC()
 		state.DB.Save(&task)
 		onComplete()
 	})

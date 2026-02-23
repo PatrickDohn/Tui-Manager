@@ -31,13 +31,9 @@ func CreateHomePage(state *UIState) tview.Primitive {
 		// value in db: 2026-02-12 21:13:53.618046-05:00
 		// value if queried like WHERE(date(due_date)) => returns 2026-02-13 02:13:53 UTC
 		//
-		now := time.Now()
-		today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+		now := time.Now().UTC()
+		today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 		tomorrow := today.Add(24 * time.Hour)
-
-		// fmt.Println("todays date:", today)
-		// fmt.Println("Tomorows date: ", tomorrow)
-		// fmt.Println("DATES: ", today > tomorrow)
 
 		state.DB.
 			Where("due_date >= ? AND due_date < ?", today, tomorrow).
@@ -70,7 +66,7 @@ func CreateHomePage(state *UIState) tview.Primitive {
 			if title == "" {
 				return
 			}
-			now := time.Now()
+			now := time.Now().UTC()
 
 			newTask := db.Task{
 				Title:    title,
