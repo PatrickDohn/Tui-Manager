@@ -88,6 +88,12 @@ func CreateHomePage(state *UIState) tview.Primitive {
 		form := CreateTaskDetailForm(state, task, func() {
 			// Delete logic: remove from slice and refresh table
 			refreshTable()
+
+			state.App.SetFocus(table)
+		}, func() {
+			refreshTable()
+
+			detailContainer.Clear()
 			state.App.SetFocus(table)
 		})
 		detailContainer.AddItem(form, 0, 1, true)

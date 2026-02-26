@@ -67,25 +67,7 @@ func main() {
 		UserName:       "Gopher",
 	}
 
-	// --- YOUR EXISTING SIDEBAR LOGIC ---
-	// sidebar := tview.NewList().
-	// 	AddItem("Home", "Go to dashboard", 'h', func() {
-	// 		contentPages.SwitchToPage("home")
-	// 	}).
-	// 	AddItem("Settings", "Change preferences", 's', func() {
-	// 		contentPages.SwitchToPage("settings")
-	// 	}).
-	// 	AddItem("Quit", "Press to exit", 'q', func() {
-	// 		app.Stop()
-	// 	})
-	// sidebar.SetBorder(true).SetTitle("Menu")
-
 	sidebar := ui.CreateSidebar(state)
-
-	// divider := tview.NewTextView().
-	// 	SetTextColor(tcell.ColorIndianRed).
-	// 	SetText("│"). // Vertical line character
-	// 	SetTextAlign(tview.AlignCenter)
 
 	contentPages.AddPage("home", ui.CreateHomePage(state), true, true)
 	contentPages.AddPage("settings", ui.CreateSettingsPage(state), true, false)

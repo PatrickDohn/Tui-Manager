@@ -128,6 +128,11 @@ func CreateProjectDetailPage(state *UIState) tview.Primitive {
 			detailContainer.AddItem(defaultProjView, 0, 1, true)
 
 			state.App.SetFocus(table)
+		}, func() {
+			refreshTable()
+
+			detailContainer.Clear()
+			state.App.SetFocus(table)
 		})
 
 		detailContainer.AddItem(form, 0, 1, true)

@@ -8,7 +8,7 @@ import (
 	"github.com/rivo/tview"
 )
 
-func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview.Primitive {
+func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func(), onDelete func()) tview.Primitive {
 
 	// var dueDateText string
 	dueDateText := task.DueDate.Format("01-02-2006")
@@ -54,7 +54,10 @@ func CreateTaskDetailForm(state *UIState, task db.Task, onComplete func()) tview
 		onComplete()
 	})
 
-	// form.AddButton("Delete")
+	form.AddButton("Delete", func() {
+		state.DB.Delete(&task, task.ID)
+		onDelete()
+	})
 	message := fmt.Sprintf(" %s Details", task.Title)
 	form.SetBorder(true).SetTitle(message)
 	return form

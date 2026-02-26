@@ -11,7 +11,7 @@ func CreateBacklogPage(state *UIState) tview.Primitive {
 	table := tview.NewTable().
 		SetBorders(true).
 		SetFixed(1, 0).
-		SetSelectable(true, true).
+		SetSelectable(true, false).
 		SetEvaluateAllRows(true)
 
 	detailContainer := tview.NewFlex().SetDirection(tview.FlexRow)
@@ -27,7 +27,6 @@ func CreateBacklogPage(state *UIState) tview.Primitive {
 		table.SetCell(0, 1, tview.NewTableCell("Priority").SetAttributes(tcell.AttrBold))
 		table.SetCell(0, 2, tview.NewTableCell("Due Date").SetAttributes(tcell.AttrBold))
 		table.SetCell(0, 3, tview.NewTableCell("Status").SetAttributes(tcell.AttrDim))
-		table.SetCell(0, 4, tview.NewTableCell("Delete").SetAttributes(tcell.AttrMask(tcell.ColorDarkRed)))
 
 		state.DB.
 			Find(&tasks)
@@ -42,7 +41,6 @@ func CreateBacklogPage(state *UIState) tview.Primitive {
 			table.SetCell(i+1, 1, tview.NewTableCell(t.Priority).SetTextColor(DraculaGreen))
 			table.SetCell(i+1, 2, tview.NewTableCell(dateDisplay))
 			table.SetCell(i+1, 3, tview.NewTableCell(t.Status))
-			table.SetCell(i+1, 4, tview.NewTableCell(" 🗑️ "))
 		}
 	}
 
@@ -51,6 +49,11 @@ func CreateBacklogPage(state *UIState) tview.Primitive {
 		form := CreateTaskDetailForm(state, task, func() {
 			// Delete logic: remove from slice and refresh table
 			refreshTable()
+			state.App.SetFocus(table)
+		}, func() {
+			refreshTable()
+
+			detailContainer.Clear()
 			state.App.SetFocus(table)
 		})
 		detailContainer.AddItem(form, 0, 1, true)
